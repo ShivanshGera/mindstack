@@ -1,0 +1,11 @@
+{
+  "name": "mindstack-root",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\""
+  }
+}
