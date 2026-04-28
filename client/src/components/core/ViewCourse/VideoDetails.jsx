@@ -4,7 +4,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom"
 
 import { markLectureAsComplete } from "../../../services/operations/courseDetailsAPI"
 import { updateCompletedLectures } from "../../../slices/viewCourseSlice"
-import IconBtn from "../../Common/IconBtn"
+import IconBtn from "../../common/IconBtn"
 
 const VideoDetails = () => {
   const { courseId, sectionId, subSectionId } = useParams()

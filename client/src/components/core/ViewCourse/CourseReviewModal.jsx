@@ -5,7 +5,7 @@ import ReactStars from "react-stars"
 import { useSelector } from "react-redux"
 
 import { createRating } from "../../../services/operations/courseDetailsAPI"
-import IconBtn from "../../Common/IconBtn"
+import IconBtn from "../../common/IconBtn"
 import { FaStar } from "react-icons/fa"
 
 export default function CourseReviewModal({ setReviewModal }) {
