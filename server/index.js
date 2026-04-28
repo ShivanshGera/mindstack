@@ -24,13 +24,13 @@ database.connect();
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-    cors({
-        origin:"http://localhost:3000",//this means whetever request is coming from frontend we have to entertain that request
-        credentials:true,
-    })
-)
-
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://mindstack-lac.vercel.app"
+  ],
+  credentials: true
+}));
 app.use(
     fileUpload({
         useTempFiles:true,
