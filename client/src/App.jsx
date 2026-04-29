@@ -1,9 +1,8 @@
 import "./App.css";
-import { Route,Routes,useNavigate } from "react-router-dom";
+import { Route,Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/common/Navbar";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup";
 import OpenRoute from "./components/core/Auth/OpenRoute"
@@ -28,6 +27,7 @@ import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import ViewCourse from "./pages/ViewCourse";
 import Instructor from "./components/core/Dashboard/Instructor";
 import EditCourse from "./components/core/Dashboard/EditCourse";
+import AIChatbot from "./components/common/AIChatbot";
 
 
 //import { getUserDetails } from "./services/operations/profileAPI"
@@ -35,8 +35,6 @@ import EditCourse from "./components/core/Dashboard/EditCourse";
 
 
 function App(){
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
   const { user } = useSelector((state) => state.profile)
 
   // useEffect(() => {
@@ -50,6 +48,7 @@ function App(){
   return(
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <Navbar/>
+      <AIChatbot/>
       <Routes>
         <Route path="/" element = {<Home/>}/>
         <Route path="/about" element={<About />}/>

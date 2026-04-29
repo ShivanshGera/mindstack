@@ -64,3 +64,7 @@ export const studentEndpoints = {
 export const ratingsEndpoints = {
   REVIEWS_DETAILS_API: BASE_URL + "/course/getReviews",
 }
+
+export const aiEndpoints = {
+  AI_CHAT_API: BASE_URL + "/ai/chat",
+}
