@@ -8,6 +8,7 @@ import { login } from "../../../services/operations/authAPI"
 function LoginForm() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,17 +16,55 @@ function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false)
 
+  
+  const [error, setError] = useState("")
+  const [touched, setTouched] = useState(false)
+
   const { email, password } = formData
 
-  const handleOnChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [e.target.name]: e.target.value,
-    }))
+
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
 
+  
+  const handleOnChange = (e) => {
+    const { name, value } = e.target
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
+
+    
+    if (name === "email" && touched) {
+      if (!isValidEmail(value)) {
+        setError("Please enter a valid email address")
+      } else {
+        setError("")
+      }
+    }
+  }
+
+  
   const handleOnSubmit = (e) => {
     e.preventDefault()
+
+    setError("")
+
+  
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email address")
+      return
+    }
+
+    
+    if (!password) {
+      setError("Password is required")
+      return
+    }
+
+
     dispatch(login(email, password, navigate))
   }
 
@@ -34,8 +73,9 @@ function LoginForm() {
       onSubmit={handleOnSubmit}
       className="mt-6 flex w-full flex-col gap-y-4"
     >
+      
       <label className="w-full">
-        <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+        <p className="mb-1 text-[0.875rem] text-richblack-5">
           Email Address <sup className="text-pink-200">*</sup>
         </p>
         <input
@@ -44,12 +84,17 @@ function LoginForm() {
           name="email"
           value={email}
           onChange={handleOnChange}
+          onBlur={() => setTouched(true)}
           placeholder="Enter email address"
-          className="form-style w-full rounded"
+          className={`form-style w-full rounded ${
+            error ? "border-red-500" : ""
+          }`}
         />
       </label>
+
+      
       <label className="relative">
-        <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
+        <p className="mb-1 text-[0.875rem] text-richblack-5">
           Password <sup className="text-pink-200">*</sup>
         </p>
         <input
@@ -61,9 +106,10 @@ function LoginForm() {
           placeholder="Enter Password"
           className="form-style w-full !pr-10 rounded"
         />
+
         <span
           onClick={() => setShowPassword((prev) => !prev)}
-          className="absolute right-3 top-[38px] z-[10] cursor-pointer"
+          className="absolute right-3 top-[38px] cursor-pointer"
         >
           {showPassword ? (
             <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
@@ -71,12 +117,22 @@ function LoginForm() {
             <AiOutlineEye fontSize={24} fill="#AFB2BF" />
           )}
         </span>
+
         <Link to="/forgot-password">
-          <p className="mt-1 ml-auto max-w-max text-xs text-blue-100">
+          <p className="mt-1 ml-auto text-xs text-blue-100">
             Forgot Password
           </p>
         </Link>
       </label>
+
+      
+      {error && (
+        <p className="text-pink-200 text-sm mt-1 font-medium">
+          {error}
+        </p>
+      )}
+
+      {/* BUTTON */}
       <button
         type="submit"
         className="mt-6 rounded-[8px] bg-yellow-50 py-[8px] px-[12px] font-medium text-richblack-900"
