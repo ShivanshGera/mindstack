@@ -194,16 +194,6 @@ exports.login = async (req,res) =>{
 exports.sendOTP = async (req,res) => {
     try{
         const {email} = req.body;
-        console.log("[sendOTP] OTP request received", {
-            email: email ? `${email.slice(0, 2)}***@${email.split("@")[1] || ""}` : "<missing>",
-        });
-
-        if(!email){
-            return res.status(400).json({
-                success:false,
-                message:"Email is required",
-            })
-        }
 
         //check if user already present 
         //find user with provided email
@@ -226,9 +216,9 @@ exports.sendOTP = async (req,res) => {
         })
 
         let result = await OTP.findOne({otp:otp})
-        console.log("[sendOTP] Generated OTP candidate", {
-            alreadyExists: Boolean(result),
-        })
+        console.log("Result is Generate OTP func")
+        console.log("OTP",otp)
+        console.log('Result',result)
 
         while(result){
             otp = otpGenerator.generate(6, {
@@ -241,28 +231,19 @@ exports.sendOTP = async (req,res) => {
 
         const otpPayload = {email,otp}
         const otpBody = await OTP.create(otpPayload)//otp is stored in database so that the otp entered by user during signup can be matched with database
-        console.log("[sendOTP] OTP saved and email sent", {
-            otpId: otpBody._id,
-            email: `${email.slice(0, 2)}***@${email.split("@")[1] || ""}`,
-        })
+        console.log("OTP Body", otpBody)
         res.status(200).json({
             success:true,
             message:`OTP sent successfully`,
+            otp,
         })
     }
     catch(error){
 
-        console.error("[sendOTP] Failed to send OTP", {
-            message: error.message,
-            code: error.code,
-            command: error.command,
-            response: error.response,
-            responseCode: error.responseCode,
-            stack: error.stack,
-        })
+        console.log(error.message)
         return res.status(500).json({
             success:false,
-            message:"Could not send OTP. Please try again later.",
+            message:error.message,
         })
 
     }
