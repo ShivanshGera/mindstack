@@ -15,7 +15,7 @@ const mailSender = async (email, title, body) => {
     });
 
     const info = await transporter.sendMail({
-      from: `"EduVantra" <${process.env.SENDER_EMAIL}>`,
+      from: `"MindStack" <${process.env.SENDER_EMAIL}>`,
       to: email,
       subject: title,
       html: body,
